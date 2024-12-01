@@ -2,7 +2,7 @@ import numpy as np
 
 
 class HamiltonianMC:
-    def __init__(self, log_prob_fn, log_prob_grad_fn, step_size = 0.1, n_steps = None):
+    def __init__(self, log_prob_fn, log_prob_grad_fn, n_steps = None, step_size = 0.01):
                 
         self.log_prob_fn = log_prob_fn
         self.log_prob_grad_fn = log_prob_grad_fn
@@ -17,7 +17,7 @@ class HamiltonianMC:
         return self.n_steps
     
     def _kinetic_energy(self, momentum):
-        return 0.5 * np.sum(momentum ** 2)
+        return 0.5 * np.sum(momentum**2)
     
     def _leapfrog_step(self, position, momentum, direction=1):
         
@@ -41,7 +41,7 @@ class HamiltonianMC:
         current_log_prob = self.log_prob_fn(current_position)
         
         
-        for i in n_samples:
+        for i in range(n_samples):
             
             momentum = np.random.normal(0, 1, dim)
             current_hamiltonian = -current_log_prob + self._kinetic_energy(momentum)
